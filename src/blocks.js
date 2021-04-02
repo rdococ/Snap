@@ -11321,6 +11321,12 @@ ColorSlotMorph.prototype.getSpec = function () {
     return '%clr';
 };
 
+// ColorSlotMorph  defaults:
+
+ColorSlotMorph.prototype.setContents = function (clr) {
+    this.setColor(clr);
+}
+
 // ColorSlotMorph  color sensing:
 
 ColorSlotMorph.prototype.getUserColor = function () {
