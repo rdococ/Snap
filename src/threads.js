@@ -4689,14 +4689,18 @@ Process.prototype.mixColors = function (clr1, proportion, clr2) {
     
     // convert the colors to linear before mixing and then back to perceptual, gives far better results
     return this.clampColor(new Color(
-        Math.sqrt(clr1.r * clr1.r * frac1 + clr2.r * clr2.r * frac2),
-        Math.sqrt(clr1.g * clr1.g * frac1 + clr2.g * clr2.g * frac2),
-        Math.sqrt(clr1.b * clr1.b * frac1 + clr2.b * clr2.b * frac2)
+        Math.pow(Math.pow(clr1.r, 2.2) * frac1 + Math.pow(clr2.r, 2.2) * frac2, 1/2.2),
+        Math.pow(Math.pow(clr1.g, 2.2) * frac1 + Math.pow(clr2.g, 2.2) * frac2, 1/2.2),
+        Math.pow(Math.pow(clr1.b, 2.2) * frac1 + Math.pow(clr2.b, 2.2) * frac2, 1/2.2)
     ));
 }
 
 Process.prototype.invertColor = function (clr) {
-    return clr.inverted();
+    return new Color(
+        Math.pow(196964.699114 - Math.pow(clr.r, 2.2), 1/2.2),
+        Math.pow(196964.699114 - Math.pow(clr.g, 2.2), 1/2.2),
+        Math.pow(196964.699114 - Math.pow(clr.b, 2.2), 1/2.2)
+    );
 }
 
 // Process temporary cloning (Scratch-style)
