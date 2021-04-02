@@ -9824,6 +9824,8 @@ SpriteBubbleMorph.prototype.dataAsMorph = function (data) {
         contents.bounds.setWidth(img.width);
         contents.bounds.setHeight(img.height);
         contents.cachedImage = img;
+    } else if (data instanceof Color) {
+        contents = new ColorSlotMorph(data, true);
     } else {
         contents = new TextMorph(
             data.toString(),
