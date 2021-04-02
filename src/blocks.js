@@ -2153,7 +2153,7 @@ SyntaxElementMorph.prototype.showBubble = function (value, exportPic, target) {
         morphToShow.bounds.setHeight(img.height);
         morphToShow.cachedImage = img;
     } else if (value instanceof Color) {
-        morphToShow = new ColorSlotMorph(value);
+        morphToShow = new ColorSlotMorph(value, true);
     } else if (typeof value === 'boolean') {
         morphToShow = SpriteMorph.prototype.booleanMorph.call(
             null,
@@ -11299,12 +11299,17 @@ ColorSlotMorph.uber = ArgMorph.prototype;
 
 // ColorSlotMorph  instance creation:
 
-function ColorSlotMorph(clr) {
-    this.init(clr);
+function ColorSlotMorph(clr, isReadOnly) {
+    this.init(clr, isReadOnly);
 }
 
-ColorSlotMorph.prototype.init = function (clr) {
+ColorSlotMorph.prototype.init = function (clr, isReadOnly) {
     ColorSlotMorph.uber.init.call(this);
+    
+    if (isReadOnly) {
+        this.isReadOnly = true;
+        this.isStatic = true;
+    }
     
     this.alpha = 1;
     this.bounds.setExtent(new Point(14, 14).multiplyBy(this.scale));
@@ -11359,6 +11364,7 @@ ColorSlotMorph.prototype.getUserColor = function () {
 // ColorSlotMorph events:
 
 ColorSlotMorph.prototype.mouseClickLeft = function () {
+    if (this.isReadOnly) { return; }
     this.selectForEdit().getUserColor();
 };
 
