@@ -4666,6 +4666,39 @@ Process.prototype.blitOn = function (name, mask, thisObj, stage) {
     });
 };
 
+Process.prototype.getColor = function (clr) {
+    return clr
+}
+
+Process.prototype.clampColor = function (clr) {
+    var min = Math.min(clr.r, clr.g, clr.b, 0);
+    var max = Math.max(clr.r - min, clr.g - min, clr.b - min, 255);
+    
+    var range = max - min;
+    
+    return new Color(
+        (clr.r - min) / range * 255,
+        (clr.g - min) / range * 255,
+        (clr.b - min) / range * 255
+    );
+}
+
+Process.prototype.mixColors = function (clr1, proportion, clr2) {
+    var frac2 = Math.min(Math.max(proportion / 100, 0), 1);
+    var frac1 = 1 - frac2;
+    
+    // convert the colors to linear before mixing and then back to perceptual, gives far better results
+    return this.clampColor(new Color(
+        Math.sqrt(clr1.r * clr1.r * frac1 + clr2.r * clr2.r * frac2),
+        Math.sqrt(clr1.g * clr1.g * frac1 + clr2.g * clr2.g * frac2),
+        Math.sqrt(clr1.b * clr1.b * frac1 + clr2.b * clr2.b * frac2)
+    ));
+}
+
+Process.prototype.invertColor = function (clr) {
+    return clr.inverted();
+}
+
 // Process temporary cloning (Scratch-style)
 
 Process.prototype.createClone = function (name) {

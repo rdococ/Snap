@@ -707,6 +707,23 @@ SpriteMorph.prototype.initBlocks = function () {
             category: 'pen',
             spec: 'cut from %spr'
         },
+        getColor: {
+            type: 'reporter',
+            category: 'pen',
+            spec: 'color %clr'
+        },
+        mixColors: {
+            type: 'reporter',
+            category: 'pen',
+            spec: 'mix %clr with %n % %clr',
+            defaults: [new Color(145, 26, 68), 50, new Color(26, 145, 68)]
+        },
+        invertColor: {
+            type: 'reporter',
+            category: 'pen',
+            spec: 'opposite of %clr',
+            defaults: [new Color(26, 68, 145)]
+        },
 
         // Control
         receiveGo: {
@@ -2514,6 +2531,10 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         blocks.push('-');
         blocks.push(block('doPasteOn'));
         blocks.push(block('doCutFrom'));
+        blocks.push('-');
+        blocks.push(block('getColor'));
+        blocks.push(block('mixColors'));
+        blocks.push(block('invertColor'));
         blocks.push('=');
         blocks.push(this.makeBlockButton(cat));
 
@@ -8702,6 +8723,10 @@ StageMorph.prototype.blockTemplates = function (category) {
         blocks.push('-');
         blocks.push(block('doPasteOn'));
         blocks.push(block('doCutFrom'));
+        blocks.push('-');
+        blocks.push(block('getColor'));
+        blocks.push(block('mixColors'));
+        blocks.push(block('invertColor'));
         blocks.push('=');
         blocks.push(this.makeBlockButton(cat));
 
