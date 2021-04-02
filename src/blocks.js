@@ -640,6 +640,7 @@ SyntaxElementMorph.prototype.labelParts = {
         tags: 'read-only static',
         menu: {
             size : ['size'],
+            color : ['color'],
             hue : ['hue'],
             saturation : ['saturation'],
             brightness : ['brightness'],

@@ -4414,6 +4414,9 @@ SpriteMorph.prototype.getPenAttribute = function (attrib) {
     if (name === 'size') {
         return this.size || 0;
     }
+    if (name === 'color') {
+        return this.color;
+    }
     return this.getColorComponentHSLA(options.indexOf(name));
 };
 
