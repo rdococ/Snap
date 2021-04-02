@@ -3713,7 +3713,7 @@ InputSlotDialogMorph.prototype.addSlotsMenu = function () {
                 this.specialOptionsMenu()
             );
             menu.addMenu(
-                (contains(['%mlt', '%code'], this.fragment.type) ?
+                (contains(['%mlt', '%code', '%clr'], this.fragment.type) ?
                     on : off) +
                 localize('special'),
                 this.specialSlotsMenu()
@@ -3756,6 +3756,8 @@ InputSlotDialogMorph.prototype.specialSlotsMenu = function () {
 
     addSpecialSlotType('multi-line', '%mlt');
     addSpecialSlotType('code', '%code');
+    addSpecialSlotType('color', '%clr');
+    
     return menu;
 };
 
