@@ -4666,7 +4666,7 @@ Process.prototype.blitOn = function (name, mask, thisObj, stage) {
     });
 };
 
-Process.prototype.getColor = function (clr) {
+Process.prototype.reportColor = function (clr) {
     return clr
 }
 
@@ -4683,7 +4683,7 @@ Process.prototype.clampColor = function (clr) {
     );
 }
 
-Process.prototype.mixColors = function (clr1, proportion, clr2) {
+Process.prototype.reportMixedColor = function (clr1, proportion, clr2) {
     var frac2 = Math.min(Math.max(proportion / 100, 0), 1);
     var frac1 = 1 - frac2;
     
@@ -4695,7 +4695,7 @@ Process.prototype.mixColors = function (clr1, proportion, clr2) {
     ));
 }
 
-Process.prototype.invertColor = function (clr) {
+Process.prototype.reportInvertedColor = function (clr) {
     return new Color(
         Math.pow(196964.699114 - Math.pow(clr.r, 2.2), 1/2.2),
         Math.pow(196964.699114 - Math.pow(clr.g, 2.2), 1/2.2),
