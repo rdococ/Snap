@@ -1602,6 +1602,8 @@ SnapSerializer.prototype.loadValue = function (model, object) {
        	def.storedSemanticSpec = model.attributes.s;
         def.updateTranslations(model.contents);
         return def.blockInstance(true); // include translations
+    case 'color':
+        return this.loadColor(model.contents);
     }
     return undefined;
 };
@@ -2316,6 +2318,16 @@ Context.prototype.toXML = function (serializer) {
         this.outerContext ? serializer.store(this.outerContext) : ''
     );
 };
+
+Color.prototype.toXML = function (serializer) {
+    return serializer.format(
+        '<color>$,$,$,$</color>',
+        this.r,
+        this.g,
+        this.b,
+        this.a
+    );
+}
 
 // Comments
 
