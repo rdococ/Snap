@@ -716,13 +716,24 @@ SpriteMorph.prototype.initBlocks = function () {
             type: 'reporter',
             category: 'pen',
             spec: 'mix %clr with %n % %clr',
-            defaults: [new Color(145, 26, 68), 50, new Color(26, 145, 68)]
+            defaults: [new Color(145, 68, 26), 50, new Color(68, 145, 26)]
         },
         reportInvertedColor: {
             type: 'reporter',
             category: 'pen',
             spec: 'opposite of %clr',
             defaults: [new Color(26, 68, 145)]
+        },
+        reportColorAsList: {
+            type: 'reporter',
+            category: 'pen',
+            spec: 'color as list %clr',
+            defaults: [new Color(68, 26, 145)]
+        },
+        reportListAsColor: {
+            type: 'reporter',
+            category: 'pen',
+            spec: 'list as color %l'
         },
 
         // Control
@@ -2533,8 +2544,12 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('doCutFrom'));
         blocks.push('-');
         blocks.push(block('reportColor'));
+        blocks.push('-');
         blocks.push(block('reportMixedColor'));
         blocks.push(block('reportInvertedColor'));
+        blocks.push('-');
+        blocks.push(block('reportColorAsList'));
+        blocks.push(block('reportListAsColor'));
         blocks.push('=');
         blocks.push(this.makeBlockButton(cat));
 
@@ -8725,8 +8740,12 @@ StageMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('doCutFrom'));
         blocks.push('-');
         blocks.push(block('reportColor'));
+        blocks.push('-');
         blocks.push(block('reportMixedColor'));
         blocks.push(block('reportInvertedColor'));
+        blocks.push('-');
+        blocks.push(block('reportColorAsList'));
+        blocks.push(block('reportListAsColor'));
         blocks.push('=');
         blocks.push(this.makeBlockButton(cat));
 

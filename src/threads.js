@@ -4631,6 +4631,49 @@ Process.prototype.changePenHSVA = Process.prototype.changeHSVA;
 Process.prototype.setBackgroundHSVA = Process.prototype.setHSVA;
 Process.prototype.changeBackgroundHSVA = Process.prototype.changeHSVA;
 
+Process.prototype.reportColor = function (clr) { return clr; };
+
+Process.prototype.reportClampedColor = function (clr) {
+    var min = Math.min(clr.r, clr.g, clr.b, 0);
+    var max = Math.max(clr.r - min, clr.g - min, clr.b - min, 255);
+    
+    var range = max - min;
+    
+    return new Color(
+        (clr.r - min) / range * 255,
+        (clr.g - min) / range * 255,
+        (clr.b - min) / range * 255
+    );
+}
+
+Process.prototype.reportMixedColor = function (clr1, proportion, clr2) {
+    var frac2 = Math.min(Math.max(proportion / 100, 0), 1);
+    var frac1 = 1 - frac2;
+    
+    // convert the colors to linear before mixing and then back to perceptual, gives far better results
+    return this.reportClampedColor(new Color(
+        Math.pow(Math.pow(clr1.r, 2.2) * frac1 + Math.pow(clr2.r, 2.2) * frac2, 1/2.2),
+        Math.pow(Math.pow(clr1.g, 2.2) * frac1 + Math.pow(clr2.g, 2.2) * frac2, 1/2.2),
+        Math.pow(Math.pow(clr1.b, 2.2) * frac1 + Math.pow(clr2.b, 2.2) * frac2, 1/2.2)
+    ));
+};
+
+Process.prototype.reportInvertedColor = function (clr) {
+    return new Color(
+        Math.pow(196964.699114 - Math.pow(clr.r, 2.2), 1/2.2),
+        Math.pow(196964.699114 - Math.pow(clr.g, 2.2), 1/2.2),
+        Math.pow(196964.699114 - Math.pow(clr.b, 2.2), 1/2.2)
+    );
+};
+
+Process.prototype.reportColorAsList = function (clr) {
+    return new List([clr.r, clr.g, clr.b]);
+};
+
+Process.prototype.reportListAsColor = function (list) {
+    return new Color(list.at(1), list.at(2), list.at(3));
+};
+
 // Process cutting & pasting primitives
 
 Process.prototype.doPasteOn = function (name) {
@@ -4665,43 +4708,6 @@ Process.prototype.blitOn = function (name, mask, thisObj, stage) {
         }
     });
 };
-
-Process.prototype.reportColor = function (clr) {
-    return clr
-}
-
-Process.prototype.clampColor = function (clr) {
-    var min = Math.min(clr.r, clr.g, clr.b, 0);
-    var max = Math.max(clr.r - min, clr.g - min, clr.b - min, 255);
-    
-    var range = max - min;
-    
-    return new Color(
-        (clr.r - min) / range * 255,
-        (clr.g - min) / range * 255,
-        (clr.b - min) / range * 255
-    );
-}
-
-Process.prototype.reportMixedColor = function (clr1, proportion, clr2) {
-    var frac2 = Math.min(Math.max(proportion / 100, 0), 1);
-    var frac1 = 1 - frac2;
-    
-    // convert the colors to linear before mixing and then back to perceptual, gives far better results
-    return this.clampColor(new Color(
-        Math.pow(Math.pow(clr1.r, 2.2) * frac1 + Math.pow(clr2.r, 2.2) * frac2, 1/2.2),
-        Math.pow(Math.pow(clr1.g, 2.2) * frac1 + Math.pow(clr2.g, 2.2) * frac2, 1/2.2),
-        Math.pow(Math.pow(clr1.b, 2.2) * frac1 + Math.pow(clr2.b, 2.2) * frac2, 1/2.2)
-    ));
-}
-
-Process.prototype.reportInvertedColor = function (clr) {
-    return new Color(
-        Math.pow(196964.699114 - Math.pow(clr.r, 2.2), 1/2.2),
-        Math.pow(196964.699114 - Math.pow(clr.g, 2.2), 1/2.2),
-        Math.pow(196964.699114 - Math.pow(clr.b, 2.2), 1/2.2)
-    );
-}
 
 // Process temporary cloning (Scratch-style)
 
