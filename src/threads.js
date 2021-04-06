@@ -4631,8 +4631,6 @@ Process.prototype.changePenHSVA = Process.prototype.changeHSVA;
 Process.prototype.setBackgroundHSVA = Process.prototype.setHSVA;
 Process.prototype.changeBackgroundHSVA = Process.prototype.changeHSVA;
 
-Process.prototype.reportColor = function (clr) { return clr; };
-
 Process.prototype.reportClampedColor = function (clr) {
     var min = Math.min(clr.r, clr.g, clr.b, 0);
     var max = Math.max(clr.r - min, clr.g - min, clr.b - min, 255);
@@ -4646,6 +4644,44 @@ Process.prototype.reportClampedColor = function (clr) {
     );
 }
 
+Process.prototype.reportColor = function (color) { return color; };
+Process.prototype.reportColorFromList = function (model, list) {
+    switch (this.inputOption(model)) {
+        case 'r-g-b': return new Color(list.at(1), list.at(2), list.at(3));
+        case 'h-s-b':
+            var color = new Color();
+            color.set_hsv(list.at(1) / 360, list.at(2) / 100, list.at(3) / 100);
+            return color;
+    }
+}
+
+Process.prototype.reportAttributeOfColor = function (attribute, color) {
+    switch (this.inputOption(attribute)) {
+    case 'red':
+        return color.r;
+    case 'green':
+        return color.g;
+    case 'blue':
+        return color.b;
+    case 'hue':
+        return color.hsv()[0] * 360;
+    case 'saturation':
+        return color.hsv()[1] * 100;
+    case 'brightness':
+        return color.hsv()[2] * 100;
+    case 'r-g-b':
+        return new List([color.r, color.g, color.b]);
+    case 'h-s-b':
+        var hsv = color.hsv();
+        
+        hsv[0] = hsv[0] * 360;
+        hsv[1] = hsv[1] * 100;
+        hsv[2] = hsv[2] * 100;
+        
+        return new List(hsv);
+    }
+}
+
 Process.prototype.reportMixedColor = function (clr1, proportion, clr2) {
     var frac2 = Math.min(Math.max(proportion / 100, 0), 1);
     var frac1 = 1 - frac2;
@@ -4657,21 +4693,12 @@ Process.prototype.reportMixedColor = function (clr1, proportion, clr2) {
         Math.pow(Math.pow(clr1.b, 2.2) * frac1 + Math.pow(clr2.b, 2.2) * frac2, 1/2.2)
     ));
 };
-
 Process.prototype.reportInvertedColor = function (clr) {
     return new Color(
         Math.pow(196964.699114 - Math.pow(clr.r, 2.2), 1/2.2),
         Math.pow(196964.699114 - Math.pow(clr.g, 2.2), 1/2.2),
         Math.pow(196964.699114 - Math.pow(clr.b, 2.2), 1/2.2)
     );
-};
-
-Process.prototype.reportColorAsList = function (clr) {
-    return new List([clr.r, clr.g, clr.b]);
-};
-
-Process.prototype.reportListAsColor = function (list) {
-    return new Color(list.at(1), list.at(2), list.at(3));
 };
 
 // Process cutting & pasting primitives

@@ -720,6 +720,28 @@ SyntaxElementMorph.prototype.labelParts = {
         tags: 'read-only',
         menu: 'shadowedVariablesMenu'
     },
+    '%clrv': { // color value
+        type: 'input',
+        tags: 'read-only static',
+        menu: {
+            red : ['red'],
+            green : ['green'],
+            blue : ['blue'],
+            'r-g-b' : ['r-g-b'],
+            hue : ['hue'],
+            saturation : ['saturation'],
+            brightness : ['brightness'],
+            'h-s-b' : ['h-s-b']
+        }
+    },
+    '%clrm': { // color model
+        type: 'input',
+        tags: 'read-only static',
+        menu: {
+            'r-g-b' : ['r-g-b'],
+            'h-s-b' : ['h-s-b']
+        }
+    },
 
     // code mapping (experimental)
 

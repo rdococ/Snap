@@ -712,6 +712,18 @@ SpriteMorph.prototype.initBlocks = function () {
             category: 'pen',
             spec: 'color %clr'
         },
+        reportColorFromList: {
+            type: 'reporter',
+            category: 'pen',
+            spec: 'color from %clrm %l',
+            defaults: ['r-g-b', null]
+        },
+        reportAttributeOfColor: {
+            type: 'reporter',
+            category: 'pen',
+            spec: '%clrv of %clr',
+            defaults: ['red', new Color(145, 26, 68)]
+        },
         reportMixedColor: {
             type: 'reporter',
             category: 'pen',
@@ -723,17 +735,6 @@ SpriteMorph.prototype.initBlocks = function () {
             category: 'pen',
             spec: 'opposite of %clr',
             defaults: [new Color(26, 68, 145)]
-        },
-        reportColorAsList: {
-            type: 'reporter',
-            category: 'pen',
-            spec: 'color as list %clr',
-            defaults: [new Color(68, 26, 145)]
-        },
-        reportListAsColor: {
-            type: 'reporter',
-            category: 'pen',
-            spec: 'list as color %l'
         },
 
         // Control
@@ -2544,12 +2545,12 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('doCutFrom'));
         blocks.push('-');
         blocks.push(block('reportColor'));
+        blocks.push(block('reportColorFromList'));
+        blocks.push('-');
+        blocks.push(block('reportAttributeOfColor'));
         blocks.push('-');
         blocks.push(block('reportMixedColor'));
         blocks.push(block('reportInvertedColor'));
-        blocks.push('-');
-        blocks.push(block('reportColorAsList'));
-        blocks.push(block('reportListAsColor'));
         blocks.push('=');
         blocks.push(this.makeBlockButton(cat));
 
@@ -8740,12 +8741,12 @@ StageMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('doCutFrom'));
         blocks.push('-');
         blocks.push(block('reportColor'));
+        blocks.push(block('reportColorFromList'));
+        blocks.push('-');
+        blocks.push(block('reportAttributeOfColor'));
         blocks.push('-');
         blocks.push(block('reportMixedColor'));
         blocks.push(block('reportInvertedColor'));
-        blocks.push('-');
-        blocks.push(block('reportColorAsList'));
-        blocks.push(block('reportListAsColor'));
         blocks.push('=');
         blocks.push(this.makeBlockButton(cat));
 
