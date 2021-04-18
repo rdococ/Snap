@@ -1,9 +1,25 @@
 # Snap! (BYOB) History
 
 ## in development:
+* **Notable Changes:**
+    * speed-up  talk bubble positioning by 5x
+* **Notable Fixes:**
+    * work around a floating point precision glitch in "ray length"
+
+### 2021-04-17
+* new dev version
+* threads: worked around a floating point precision glitch in "ray length"
+* objects: speed-up  talk bubble positioning by 5x
+
+## 6.7.4
 * **Notable Fixes:**
     * fixed DEAL in the APL library, thanks, Brian!
     * fixed a resizing edge case bug for the stage prompter (ASK command)
+    * fixed finding "index of" block by search 
+
+### 2021-04-09
+* objects fixed #2821 - "index of" block not found by search
+* prepared patch
 
 ### 2021-03-28
 * new dev version
