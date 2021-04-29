@@ -84,7 +84,7 @@ BlockEditorMorph, BlockDialogMorph, PrototypeHatBlockMorph,  BooleanSlotMorph,
 localize, TableMorph, TableFrameMorph, normalizeCanvas, VectorPaintEditorMorph,
 AlignmentMorph, Process, WorldMap, copyCanvas, useBlurredShadows*/
 
-modules.objects = '2021-April-17';
+modules.objects = '2021-April-23';
 
 var SpriteMorph;
 var StageMorph;
@@ -5153,7 +5153,7 @@ SpriteMorph.prototype.applyGraphicsEffects = function (canvas) {
             }
             v = max / 255;
 
-            h = (h + hueShift * 360 / 200) % 360;
+            h = (((h + hueShift * 360 / 200) % 360) + 360) % 360;
             s = Math.max(0, Math.min(s + saturationShift / 100, 1));
             v = Math.max(0, Math.min(v + brightnessShift / 100, 1));
 
@@ -11323,7 +11323,7 @@ CellMorph.prototype.render = function (ctx) {
             ctx.shadowOffsetY = this.border;
             ctx.shadowBlur = this.border;
             ctx.shadowColor = this.color.darker(80).toString();
-            this.drawShadow(ctx, this.edge, this.border / 2);
+            this.drawShadow(ctx, this.edge, 0);
         }
     }
 };
@@ -11337,10 +11337,8 @@ CellMorph.prototype.drawShadow = function (context, radius, inset) {
     context.beginPath();
     context.moveTo(0, h - offset);
     context.lineTo(0, offset);
-    context.stroke();
 
     // top left:
-    context.beginPath();
     context.arc(
         offset,
         offset,
@@ -11349,11 +11347,8 @@ CellMorph.prototype.drawShadow = function (context, radius, inset) {
         radians(-90),
         false
     );
-    context.stroke();
 
     // top right:
-    context.beginPath();
-    context.moveTo(offset, 0);
     context.lineTo(w - offset, 0);
     context.stroke();
 };
@@ -12082,7 +12077,9 @@ WatcherMorph.prototype.parseTxt = function () {
 
 WatcherMorph.prototype.setStyle = function (style) {
     this.style = style;
+    this.changed();
     this.fixLayout();
+    this.rerender();
 };
 
 WatcherMorph.prototype.styleNormal = function () {
